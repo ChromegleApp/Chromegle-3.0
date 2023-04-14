@@ -1,0 +1,44 @@
+{
+  "name": "Chromegle - Omegle Client & IP Puller",
+  "description": "Elevate your Omegle experience with an integrated IP puller, custom themes, automation and other general improvements.",
+  "author": "Isaac Kogan",
+  "homepage_url": "https://chromegle.net",
+  "manifest_version": 3,
+  "version": "1.2.2",
+  "content_scripts": [
+    {
+      "js": [
+        "src/core/chromegle/settings/categories.js",
+        "src/core/chromegle/settings/components.js",
+        "src/core/chromegle/settings/settings.js",
+        "src/core/chromegle/logging.js",
+        "src/core/chromegle/modules.js",
+        "src/core/omegle/api.js",
+        "src/core/omegle/registry.js",
+        "src/libs/js-cookie-3.0.1.js",
+        "src/modules/auto-tos.js",
+        "src/main.js"
+      ],
+      "matches": [
+        "*://*.omegle.com/*"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [],
+      "matches": [
+        "*://*.omegle.com/*"
+      ]
+    }
+  ],
+  "incognito": "split",
+  "permissions": [
+    "storage"
+  ],
+  "externally_connectable": {
+    "matches": [
+      "*://*.omegle.com/*"
+    ]
+  }
+}
