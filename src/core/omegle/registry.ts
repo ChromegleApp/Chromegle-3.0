@@ -48,7 +48,7 @@ class OmegleRegistry {
         for (let record of event) {
 
             // IN-CHAT video loaded (loading spinner disappears)
-            if ((<HTMLElement>record.target).id === "othervideospinner" && record.attributeName === "style") {
+            if ((record.target as HTMLElement).id === "othervideospinner" && record.attributeName === "style") {
                 if ((record.target as HTMLElement).style.display === "none" && this.isChatting) {
                     document.dispatchEvent(new CustomEvent("omegle.strangerVideoLoaded"));
                     this.videoLoaded = true;
