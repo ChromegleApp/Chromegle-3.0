@@ -15,7 +15,7 @@
         "src/core/chromegle/modules.js",
         "src/core/omegle/api.js",
         "src/core/omegle/registry.js",
-        "src/libs/js-cookie-3.0.1.js",
+        "src/libs/js-cookie-3.0.1.min.js",
         "src/modules/auto-tos.js",
         "src/main.js"
       ],
