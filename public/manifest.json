@@ -11,13 +11,18 @@
         "src/core/chromegle/settings/categories.js",
         "src/core/chromegle/settings/components.js",
         "src/core/chromegle/settings/settings.js",
+        "src/core/chromegle/factory.js",
         "src/core/chromegle/logging.js",
         "src/core/chromegle/modules.js",
         "src/core/omegle/api.js",
         "src/core/omegle/registry.js",
         "src/libs/js-cookie-3.0.1.min.js",
         "src/modules/auto-tos.js",
+        "src/modules/menu.js",
         "src/main.js"
+      ],
+      "css": [
+        "./css/chromegle.css"
       ],
       "matches": [
         "*://*.omegle.com/*"
@@ -26,7 +31,9 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": [],
+      "resources": [
+        "/html/settings-menu.html"
+      ],
       "matches": [
         "*://*.omegle.com/*"
       ]
