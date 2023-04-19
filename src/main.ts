@@ -1,11 +1,8 @@
 import {loadModules} from "./core/chromegle/modules";
 import {AutoTOS} from "./modules/auto-tos";
+import {Menu} from "./modules/menu";
 
-
-document.addEventListener("DOMContentLoaded", () => {
-
-    loadModules(
-        AutoTOS
-    )
-
-});
+loadModules(
+    AutoTOS,
+    Menu
+)
