@@ -1,3 +1,5 @@
+import {Registry} from "./registry";
+
 class OmegleAPI {
     public test: string = "abc";
 
@@ -9,6 +11,19 @@ class OmegleAPI {
         let area = document.querySelector("textarea.chatmsg");
         if (!area) return false;
         return !area.classList.contains("disabled");
+    }
+
+    public skipChat(ifChatting: boolean = true): void {
+
+        if (ifChatting && !Registry.isChatting) {
+            return;
+        }
+
+        // Skip Chat
+        let disconnectButton = document.querySelector('.disconnectbtn') as HTMLButtonElement;
+        if (Registry.isChatting) disconnectButton.click();
+        disconnectButton.click();
+
     }
 
 }

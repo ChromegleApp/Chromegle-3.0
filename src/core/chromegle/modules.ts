@@ -14,6 +14,10 @@ export abstract class Module {
         (element || document).addEventListener(type, listener, options);
     }
 
+    postLoad(): void {
+        // Action to complete after all modules have loaded
+    }
+
     addOmegleEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions, element?: HTMLElement): void {
         this.addEventListener(`omegle.${type}`, listener, options, element);
     }
@@ -24,19 +28,28 @@ export abstract class Module {
 
 }
 
-export function loadModules(...modules: Array<new() => Module>): Array<Module> {
-    const instances: Array<Module> = [];
+export const Modules: Record<string, Module> = {};
 
-    for (let module of modules) {
+
+export function loadModules(...modules: Array<new() => Module>): Record<string, Module> {
+
+    // Load the module
+    for (let moduleType of modules) {
         try {
-            instances.push(new module());
+            const module: Module = new moduleType();
+            Modules[module.id] = module;
         } catch (ex: any) {
             Logger.ERROR("loadModules", "Failed to load a module due to an exception:\n%s", ex.stack)
         }
 
     }
 
-    return instances;
+    // Complete post-load actions
+    for (let module of Object.values(Modules)) {
+        module.postLoad();
+    }
+
+    return Modules;
 
 }
 

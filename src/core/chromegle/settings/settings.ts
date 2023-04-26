@@ -1,14 +1,5 @@
 import {Categories, Category} from "./categories";
-import {Component} from "./components";
-
-
-export abstract class Option {
-
-    abstract id: string;
-    abstract label: string;
-    abstract components: Array<Component>
-
-}
+import {Option} from "./options";
 
 class OptionAlreadyExistsError extends Error {
 
@@ -19,6 +10,10 @@ class OptionAlreadyExistsError extends Error {
 
 export const Settings = {
     options: <Record<string, Record<string, Option>>> {},
+
+    getOption(category: Category, option: string): Option | null {
+        return this.options[category][option];
+    },
 
     addOption(category: Category, option: Option) {
 
@@ -38,5 +33,6 @@ export const Settings = {
     }
 
 }
+
 
 

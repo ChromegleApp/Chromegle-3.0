@@ -1,7 +1,13 @@
-import {Module} from "../core/chromegle/modules";
+import {Module, Modules} from "../core/chromegle/modules";
 import {Logger} from "../core/chromegle/logging";
-import {generateUIButton} from "../core/chromegle/factory";
-import {Option, Settings} from "../core/chromegle/settings/settings";
+import {generateCategoryCollapsible, generateFragmentFromHTML, generateUIButton} from "../core/chromegle/factory";
+import {Settings} from "../core/chromegle/settings/settings";
+import {Categories} from "../core/chromegle/settings/categories";
+import {Option} from "../core/chromegle/settings/options";
+
+type CategoryRecord = [[string, Record<string, Option>]];
+type OptionRecord = [[string, Option]];
+
 
 export class Menu extends Module {
 
@@ -13,13 +19,9 @@ export class Menu extends Module {
     }
 
     onLoad(): void {
-
         // Inject menu button
         const taglineElement: HTMLElement | null = this.injectMenuOpenButton();
         if (!taglineElement) return;
-
-        // Inject menu
-        this.generateSettingsMenu();
 
         // Add button event listener
         this.addEventListener('click', () => this.toggleMenu(true), undefined, taglineElement);
@@ -60,45 +62,54 @@ export class Menu extends Module {
 
     }
 
-    generateSettingsMenu() {
+    postLoad() {
 
         fetch(chrome.runtime.getURL("html/settings-menu.html"))
             .then((response: Response) => response.text())
             .then((htmlText: string) => {
-                const menuContainer = new DOMParser().parseFromString(htmlText, "text/html").body.childNodes.item(0) as HTMLElement;
-                document.getElementsByTagName("body").item(0)?.appendChild(menuContainer);
-                this.setupSettingsMenu();
+                const containerHTML = generateFragmentFromHTML(htmlText);
+                document.getElementsByTagName("body").item(0)?.appendChild(containerHTML);
+
+                // Listen to background click
+                const menuContainer = document.querySelector('#chromegle-menu-container') as HTMLElement;
+                this.addEventListener('click', this.onMenuContainerClick, undefined, menuContainer);
+
+                // Listen to close button click
+                const closeButton = document.querySelector('.chromegle-menu-close-button') as HTMLElement;
+                this.addEventListener('click', () => this.toggleMenu(false), undefined, closeButton);
+
+                // Sync menu options
+                this.syncOptions();
             });
 
     }
 
-    setupSettingsMenu() {
-
-        // Listen to background click
-        const menuContainer = document.querySelector('#chromegle-menu-container') as HTMLElement;
-        this.addEventListener('click', this.onMenuContainerClick, undefined, menuContainer);
-
-        // Listen to close button click
-        const closeButton = document.querySelector('.chromegle-menu-close-button') as HTMLElement;
-        this.addEventListener('click', () => this.toggleMenu(false), undefined, closeButton);
+    syncOptions() {
 
         // Define categories
-        type SettingsCategories = [[string, Record<string, Option>]];
-        const categoryEntries: SettingsCategories = Object.entries(Settings.options) as SettingsCategories;
+        const categoryEntries: CategoryRecord = Object.entries(Settings.options) as CategoryRecord;
+        categoryEntries.sort(); // Alphabetical sort guarantees same position every time
 
         // Get menu options element
         const menuOptions = document.querySelector('.chromegle-menu-options') as HTMLElement;
 
-        for (let [categoryName, categorySettings] of categoryEntries) {
+        // Clear current
+        menuOptions.innerHTML = "";
 
-            // TODO logic to generate category
+        for (let [categoryId, categoryOptions] of categoryEntries) {
+
+            const categoryHTML: [HTMLElement, HTMLElement] = generateCategoryCollapsible(
+                categoryId, Categories[categoryId]
+            )
+
+            menuOptions.appendChild(categoryHTML[0]);
+            menuOptions.appendChild(categoryHTML[1])
 
             // Define entries
-            type SettingsEntries = [[string, Option]];
-            const settingEntries: SettingsEntries = Object.entries(categorySettings) as SettingsEntries;
+            const settingEntries: OptionRecord = Object.entries(categoryOptions) as OptionRecord;
 
             for (let [settingName, settingOption] of settingEntries) {
-
+                console.log(settingName, settingOption);
                 // TODO logic to generate settings and append them to given category
             }
 
@@ -106,6 +117,7 @@ export class Menu extends Module {
         }
 
     }
+
 
 
 }

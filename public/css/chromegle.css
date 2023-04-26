@@ -71,10 +71,6 @@ img[src="/static/tagline.png"] {
     width: 90%;
     height: 90%;
     max-height: 600px;
-
-    /*
-    TODO replace when themes are implemented
-     */
     background-color: #d9d9d9;
 
 }
@@ -100,5 +96,71 @@ img[src="/static/tagline.png"] {
 }
 
 .chromegle-menu-options {
-    padding: 0 40px 20px 40px;
+    display: flex;
+    padding: 20px 40px 20px 40px;
+}
+
+
+.chromegle-menu-collapsible {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+
+
+.active, .chromegle-menu-collapsible:hover {
+    background-color: #ccc;
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.chromegle-menu-collapsible-content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+    transition: background-color 200ms;
+}
+
+#tagline {
+    display: flex !important;
+}
+
+#chromegle-user-count {
+    font-weight: 200;
+    height: 57px;
+    width: 150px;
+    background-size: 150px 57px;
+    margin-left: 20px;
+    background-image: -o-linear-gradient(top, #80c0ff 0, #017ffe 100%);
+    background-image: -moz-linear-gradient(top, #80c0ff 0, #017ffe 100%);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#80c0ff), to(#017ffe));
+    background-image: -webkit-linear-gradient(top, #80c0ff 0, #017ffe 100%);
+    background-image: -ms-linear-gradient(top, #80c0ff 0, #017ffe 100%);
+    background-image: linear-gradient(top, #80c0ff 0, #017ffe 100%);
+    animation: 1000ms ease-out 0s 1 fadein;
+    border-radius: 10px;
+    float: top;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+}
+
+.chromegle-users-count {
+    text-align: center;
+    font-size: 30px;
+    margin-bottom: -5px;
+    margin-top: -9px;
+}
+
+.chromegle-users-desc {
+    text-align: center;
+    font-size: 12px;
 }

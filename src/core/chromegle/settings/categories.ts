@@ -1,17 +1,15 @@
 
 
-class SettingsCategory {
+export class SettingsCategory {
 
-    constructor(public name: string) {
-
-    }
+    constructor(public name: string) {}
 
 }
 
 export enum Category {
-    GREETINGS = "greetings",
+    AUTOMATION = "automation",
 }
 
-export const Categories = {
-    [Category.GREETINGS]: new SettingsCategory("Greeting Settings")
+export const Categories: Record<string, SettingsCategory> = {
+    [Category.AUTOMATION]: new SettingsCategory("Automation")
 }
